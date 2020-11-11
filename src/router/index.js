@@ -1,14 +1,30 @@
-const { createRouter, createWebHistory } = require("vue-router");
+const { createRouter, createWebHashHistory } = require("vue-router");
 
-const history = createWebHistory()
+const routes = [
+  {
+    path: '/all',
+    name: 'home',
+  },
+  {
+    path: '/active',
+    name: 'active',
+  },
+  {
+    path: '/complete',
+    name: 'complete',
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: {
+      name: 'home'
+    }
+  }
+]
+
+const history = createWebHashHistory()
 const router = createRouter({
   history,
-  routes: [
-    {
-      path: '/',
-      component: () => import('../views/home.vue')
-    }
-  ]
+  routes
 })
 
 export default router
