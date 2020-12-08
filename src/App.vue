@@ -1,21 +1,17 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="nav">
+    {{list}}
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 import { useStore } from 'vuex'
 import { computed } from 'vue'
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  },
   setup () {
     const store = useStore()
-
     const list = computed(() => store.state.toDos)
     return {
       list
@@ -30,8 +26,6 @@ export default {
   font-family: 'Noto Sans TC', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

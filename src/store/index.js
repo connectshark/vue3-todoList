@@ -1,4 +1,5 @@
 const { createStore } = require("vuex")
+import { LS } from '../lib/ls'
 
 const store = createStore({
   state: {
@@ -9,7 +10,7 @@ const store = createStore({
     ]
   },
   mutations: {
-    setTodos: (state, todo) => {
+    setToDos: (state, todo) => {
       state.toDos = todo
     },
 
@@ -24,7 +25,12 @@ const store = createStore({
     updateTodo: (state, { index, data } )=>{
       state.toDos[index].content = data.content
       state.toDos[index].complete = data.complete
-    },
+    }
+  },
+  actions: {
+    init: ({ commit }) => {
+      commit('setToDos', LS.load('toDos'))
+    }
   }
 })
 
