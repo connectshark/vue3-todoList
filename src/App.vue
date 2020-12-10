@@ -1,21 +1,17 @@
 <template>
-  <div id="nav">
-    {{list}}
-  </div>
+  <Title/>
+  <Nav/>
+  <router-view/>
 </template>
 
 <script>
-import { useStore } from 'vuex'
-import { computed } from 'vue'
-
+import Title from './components/title'
+import Nav from './components/nav'
 export default {
   name: 'App',
-  setup () {
-    const store = useStore()
-    const list = computed(() => store.state.toDos)
-    return {
-      list
-    }
+  components: {
+    Title,
+    Nav
   }
 }
 </script>

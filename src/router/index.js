@@ -7,10 +7,19 @@ const router = createRouter({
   history,
   routes: [
     {
-      path: '/',
-      component: () => import('../views/home.vue')
+      path: '/home/:state',
+      name: 'home',
+      component: () => import('../views/home.vue'),
+      props: true
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      redirect: {
+        path: '/home/all'
+      }
     }
-  ]
+  ],
+  linkActiveClass: 'link-active'
 })
 
 export default router
