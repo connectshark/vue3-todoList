@@ -53,7 +53,7 @@ export default {
       transition: border-bottom .5s, color .5s;
     }
     .link-active{
-      color: #333;
+      color: $main;
       border-bottom: 2px solid $main;
     }
   }
