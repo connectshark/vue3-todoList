@@ -44,7 +44,7 @@ const store = createStore({
   },
   getters: {
     taskFilter: state => name => {
-      return filter[name](state.toDos)
+      return filter[name](state.toDos).map(todo => state.toDos.indexOf(todo))
     }
   }
 })

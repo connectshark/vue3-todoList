@@ -1,11 +1,9 @@
 <template>
   <main>
     <ul>
-      <ListItem v-for="(todo, index) in toDos"
-      :key="index"
-      :content="todo.content"
-      :complete="todo.complete"
-      :index="index"/>
+      <ListItem v-for="todo in toDos"
+      :key="todo"
+      :index="todo"/>
     </ul>
   </main>
 </template>

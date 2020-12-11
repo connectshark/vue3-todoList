@@ -1,24 +1,27 @@
 <template>
   <li class="list-item">
-    <p class="content">{{content}}</p>
+    <p class="content">{{todo.content}}</p>
     <div class="icon" @click="check(index)">
-      <span class="check" v-if="complete"></span>
+      <span class="check" v-if="todo.complete"></span>
       <span class="circle" v-else></span>
     </div>
   </li>
 </template>
 
 <script>
+import { computed } from 'vue'
 import { useStore } from 'vuex'
 export default {
-  props: ['complete', 'content', 'index'],
-  setup () {
+  props: ['index'],
+  setup (props) {
     const store = useStore()
+    const todo = computed(() => store.state.toDos[props.index])
     const check = index => {
       store.dispatch('taskComplete', index)
     }
     return {
-      check
+      check,
+      todo
     }
   }
 }
