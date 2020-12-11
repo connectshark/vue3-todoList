@@ -1,2 +1,10 @@
 $main: #FF1D64;
 $sub: #FEDCE6;
+
+@mixin circle {
+  display: block;
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  box-shadow: 2px 5px 10px #ddd;
+}

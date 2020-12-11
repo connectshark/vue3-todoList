@@ -1,7 +1,7 @@
 /**
  * 設定localstorage資料
  */
-export const LS = {
+const LS = {
   /**
    * 讀取localstorage資料
    * @param {String} listName key名稱
@@ -26,3 +26,4 @@ export const LS = {
     localStorage.removeItem(listName)
   }
 }
+export default LS

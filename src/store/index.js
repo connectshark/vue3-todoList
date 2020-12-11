@@ -1,5 +1,6 @@
-const { createStore } = require("vuex")
-import { LS } from '../lib/ls'
+import { createStore } from 'vuex'
+import filter from '../lib/filter'
+import LS from '../lib/ls'
 
 const store = createStore({
   state: {
@@ -22,14 +23,28 @@ const store = createStore({
       state.toDos.splice(index, 1)
     },
 
-    updateTodo: (state, { index, data } )=>{
-      state.toDos[index].content = data.content
-      state.toDos[index].complete = data.complete
+    updateTodo: (state, { index, complete, content })=>{
+      state.toDos[index].content = content
+      state.toDos[index].complete = complete
     }
   },
   actions: {
     init: ({ commit }) => {
       commit('setToDos', LS.load('toDos'))
+    },
+    taskComplete: ({ commit, state }, index) => {
+      const content = state.toDos[index].content
+      const complete = !state.toDos[index].complete
+      commit('updateTodo', {
+        content,
+        complete,
+        index
+      })
+    }
+  },
+  getters: {
+    taskFilter: state => name => {
+      return filter[name](state.toDos)
     }
   }
 })

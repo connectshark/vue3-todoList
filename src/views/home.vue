@@ -4,14 +4,18 @@
       <ListItem v-for="(todo, index) in toDos"
       :key="index"
       :content="todo.content"
-      :complete="todo.complete"/>
+      :complete="todo.complete"
+      :index="index"/>
     </ul>
   </main>
 </template>
 
 <script>
 import ListItem from '../components/listItem'
+import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
+import { computed } from 'vue'
+
 export default {
   props: ['state'],
   components: {
@@ -19,7 +23,8 @@ export default {
   },
   setup () {
     const store = useStore()
-    const toDos = store.state.toDos
+    const route = useRoute()
+    const toDos = computed(() => store.getters.taskFilter(route.params.state))
     return {
       toDos
     }
