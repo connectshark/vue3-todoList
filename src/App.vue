@@ -2,16 +2,19 @@
   <Title/>
   <Nav/>
   <router-view/>
+  <Footer/>
 </template>
 
 <script>
 import Title from './components/title'
 import Nav from './components/nav'
+import Footer from './components/footer'
 export default {
   name: 'App',
   components: {
     Title,
-    Nav
+    Nav,
+    Footer
   }
 }
 </script>
@@ -24,5 +27,6 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+  position: relative;
 }
 </style>
