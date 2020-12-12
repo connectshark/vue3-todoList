@@ -38,6 +38,9 @@ export default {
 @import "~@/assets/scss/base.scss";
 #nav{
   width: 100%;
+  position: sticky;
+  top: 0px;
+  background-image: linear-gradient(to bottom, #fff 20%, transparent 100%);
   .nav-group{
     display: flex;
     flex-flow: row nowrap;

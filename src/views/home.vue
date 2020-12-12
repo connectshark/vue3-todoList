@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="main">
     <ul>
       <ListItem v-for="todo in toDos"
       :key="todo"
@@ -31,5 +31,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.main{
+  margin-bottom: 200px;
+}
 </style>

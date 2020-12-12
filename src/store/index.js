@@ -13,19 +13,23 @@ const store = createStore({
   mutations: {
     setToDos: (state, todo) => {
       state.toDos = todo
+      LS.save('toDos', state.toDos)
     },
 
     addTodo: (state, todo) => {
-      state.toDos.push(todo)
+      state.toDos.unshift(todo)
+      LS.save('toDos', state.toDos)
     },
 
     removeTodo: (state, index) => {
       state.toDos.splice(index, 1)
+      LS.save('toDos', state.toDos)
     },
 
     updateTodo: (state, { index, complete, content })=>{
       state.toDos[index].content = content
       state.toDos[index].complete = complete
+      LS.save('toDos', state.toDos)
     }
   },
   actions: {

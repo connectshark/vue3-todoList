@@ -1,27 +1,73 @@
 <template>
   <li class="list-item">
-    <p class="content">{{todo.content}}</p>
     <div class="icon" @click="check(index)">
-      <span class="check" v-if="todo.complete"></span>
-      <span class="circle" v-else></span>
+      <span :class="[todo.complete ? 'check' : 'circle']"></span>
+    </div>
+    <input type="text"
+      class="todo"
+      v-if="modify"
+      v-model.trim="content"
+      v-focus
+      @blur="modifyItem"
+      @keyup.esc="modifyItem"
+      @keyup.enter="modifyItem">
+    <p class="content"
+      v-else
+      :class="{complete : todo.complete}"
+      @dblclick="modify = !modify">{{todo.content}}</p>
+    <div class="delete" @click="deleteTodoItem">
+      <span class="material-icons false">clear</span>
     </div>
   </li>
 </template>
 
 <script>
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 export default {
   props: ['index'],
+  directives: {
+    focus: {
+      mounted(el) {
+        el.focus()
+      }
+    }
+  },
   setup (props) {
     const store = useStore()
     const todo = computed(() => store.state.toDos[props.index])
+    const content = ref('')
+    const modify = ref(false)
     const check = index => {
       store.dispatch('taskComplete', index)
     }
+    watch(modify, newValue => {
+      if (newValue) {
+        content.value = todo.value.content
+      }
+    })
+
+    const modifyItem = () => {
+      store.commit('updateTodo', {
+        index: props.index,
+        content: content.value,
+        complete: todo.value.complete
+      })
+      modify.value = false
+    }
+
+    const deleteTodoItem = () => {
+      if (confirm(`要刪除${todo.value.content}嗎?`)) {
+        store.commit('removeTodo', props.index)
+      }
+    }
     return {
       check,
-      todo
+      modify,
+      todo,
+      content,
+      deleteTodoItem,
+      modifyItem
     }
   }
 }
@@ -39,13 +85,26 @@ export default {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin-bottom: 20px;
   .content{
     font-size: 20px;
     line-height: 1.5;
   }
+  .complete{
+    text-decoration: line-through;
+  }
+  .todo{
+    width: 80%;
+    border: 1px solid #ccc;
+    line-height: 1.5;
+    box-sizing: border-box;
+    font-size: 20px;
+    outline: none;
+    border-radius: 5px;
+  }
   .icon{
+    margin: 0 20px 0 0;
     .circle{
       @include circle;
     }
@@ -66,6 +125,23 @@ export default {
         left: 3px;
         top: 5px;
       }
+    }
+  }
+  .delete{
+    margin-left: auto;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    &:active{
+      border: 1px solid #333;
+      .false{
+        color: #333;
+      }
+    }
+    .false{
+      font-size: 20px;
+      line-height: 1;
+      vertical-align: middle;
+      color: #ccc;
     }
   }
 }
