@@ -15,15 +15,21 @@
       v-else
       :class="{complete : todo.complete}"
       @dblclick="modify = !modify">{{todo.content}}</p>
-    <div class="delete" @click="deleteTodoItem">
+    <div class="delete" @click="isShow = !isShow">
       <span class="material-icons false">clear</span>
     </div>
   </li>
+  <Dialog
+    v-if="isShow"
+    :title="'是否要刪除' + todo.content"
+    @resultHandler="resultHandler"/>
 </template>
 
 <script>
 import { computed, ref, watch } from 'vue'
 import { useStore } from 'vuex'
+import Dialog from './dialog'
+
 export default {
   props: ['index'],
   directives: {
@@ -33,11 +39,15 @@ export default {
       }
     }
   },
+  components: {
+    Dialog
+  },
   setup (props) {
     const store = useStore()
     const todo = computed(() => store.state.toDos[props.index])
     const content = ref('')
     const modify = ref(false)
+    const isShow = ref(false)
     const check = index => {
       store.dispatch('taskComplete', index)
     }
@@ -56,17 +66,20 @@ export default {
       modify.value = false
     }
 
-    const deleteTodoItem = () => {
-      if (confirm(`要刪除${todo.value.content}嗎?`)) {
+    const resultHandler = res => {
+      if (res) {
         store.commit('removeTodo', props.index)
       }
+      isShow.value = false
     }
+
     return {
       check,
       modify,
+      isShow,
       todo,
       content,
-      deleteTodoItem,
+      resultHandler,
       modifyItem
     }
   }
